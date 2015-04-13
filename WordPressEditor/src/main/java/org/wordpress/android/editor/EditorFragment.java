@@ -1,6 +1,7 @@
 package org.wordpress.android.editor;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -66,6 +68,18 @@ public class EditorFragment extends EditorFragmentAbstract {
         mWebView = (WebView) view.findViewById(R.id.webview);
         initWebView();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    @Override
+    public void onPause() {
+        ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.mWebView.getWindowToken(), 0);
+        super.onPause();
     }
 
     @Override
@@ -197,6 +211,9 @@ public class EditorFragment extends EditorFragmentAbstract {
                                 Utils.escapeHtml(title) + "');");
                         mWebView.loadUrl("javascript:ZSSEditor.getField('zss_field_content').setHTML('" +
                                 Utils.escapeHtml(contentHtml) + "');");
+
+                        // Set focus on the title field
+                        mWebView.loadUrl("javascript:ZSSEditor.focusFirstEditableField()");
                     }
                 });
             }
