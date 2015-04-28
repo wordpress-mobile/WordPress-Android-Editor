@@ -204,6 +204,9 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
                         Utils.escapeHtml(title) + "');");
                 mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_content').setHTML('" +
                         Utils.escapeHtml(contentHtml) + "');");
+
+                // Set focus on the title field
+                mWebView.execJavaScriptFromString("ZSSEditor.focusFirstEditableField()");
             }
         });
     }
