@@ -123,7 +123,7 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
 
         mWebView.addJavascriptInterface(new JsCallbackReceiver(this), JS_CALLBACK_HANDLER);
 
-        mWebView.loadDataWithBaseURL("file:///android_asset/", htmlEditor, "text/html", "utf-8", "");
+        mWebView.execLoadDataWithBaseURL("file:///android_asset/", htmlEditor, "text/html", "utf-8", "");
 
         enableWebDebugging(true);
     }
@@ -213,6 +213,9 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
                         Utils.escapeHtml(title) + "');");
                 mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_content').setHTML('" +
                         Utils.escapeHtml(contentHtml) + "');");
+
+                // Set focus on the title field
+                mWebView.execJavaScriptFromString("ZSSEditor.focusFirstEditableField()");
             }
         });
     }
