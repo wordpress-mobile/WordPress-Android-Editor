@@ -20,4 +20,9 @@ public class EditorWebView extends EditorWebViewAbstract {
         }
     }
 
+    public void execLoadDataWithBaseURL (String baseUrl, String data, String mimeType, String encoding, String historyUrl) {
+        this.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
+    }
+
+
 }

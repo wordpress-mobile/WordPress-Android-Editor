@@ -18,6 +18,7 @@ import org.wordpress.android.util.AppLog;
  */
 public abstract class EditorWebViewAbstract extends WebView {
     public abstract void execJavaScriptFromString(String javaScript);
+    public abstract void execLoadDataWithBaseURL (String baseUrl, String data, String mimeType, String encoding, String historyUrl);
 
     public EditorWebViewAbstract(Context context, AttributeSet attrs) {
         super(context, attrs);
