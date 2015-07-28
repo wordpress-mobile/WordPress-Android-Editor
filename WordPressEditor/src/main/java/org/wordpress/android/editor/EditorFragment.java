@@ -61,6 +61,8 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
     private CountDownLatch mGetTitleCountDownLatch;
     private CountDownLatch mGetContentCountDownLatch;
 
+    private boolean mWordPressFormatting = true;
+
     private final Map<String, ToggleButton> mTagToggleButtonMap = new HashMap<>();
 
     public static EditorFragment newInstance(String title, String content) {
@@ -331,7 +333,8 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_title').getHTMLForCallback();");
+                mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_title').getHTMLForCallback("
+                        + Boolean.toString(getWordPressFormatting()) + ");");
             }
         });
 
@@ -370,7 +373,8 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_content').getHTMLForCallback();");
+                mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_content').getHTMLForCallback("
+                        + Boolean.toString(getWordPressFormatting()) + ");");
             }
         });
 
@@ -484,11 +488,20 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
         }
     }
 
+    public boolean getWordPressFormatting() {
+        return mWordPressFormatting;
+    }
+
+    public void setWordPressFormatting(boolean enabled) {
+        mWordPressFormatting = enabled;
+    }
+
     private void updateVisualEditorFields() {
-        mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_title').setPlainText('" +
-                Utils.escapeHtml(mTitle) + "');");
-        mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_content').setHTML('" +
-                Utils.escapeHtml(mContentHtml) + "');");
+        mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_title').setPlainText('"
+                + Utils.escapeHtml(mTitle) + "');");
+        mWebView.execJavaScriptFromString("ZSSEditor.getField('zss_field_content').setHTML('"
+                + Utils.escapeHtml(mContentHtml) + "', "
+                + Boolean.toString(getWordPressFormatting()) + ");");
     }
 
     /**
