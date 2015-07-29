@@ -2335,21 +2335,24 @@ ZSSField.prototype.enableRightToLeftText = function(isRTL) {
 // MARK: - HTML contents
 
 ZSSField.prototype.isEmpty = function() {
-    var html = this.getHTML();
+    var html = this.getHTML(false);
     var isEmpty = (html.length == 0 || html == "<br>");
 
     return isEmpty;
 };
 
-ZSSField.prototype.getHTML = function() {
-    var html = wp.saveText(this.wrappedObject.html());
+ZSSField.prototype.getHTML = function(format) {
+    var html = this.wrappedobject.html();
+    if ( format ) {
+        html = wp.saveText(this.wrappedObject.html());
+    }
     html = ZSSEditor.removeVisualFormatting( html );
     return html;
 };
 
-ZSSField.prototype.getHTMLForCallback = function() {
+ZSSField.prototype.getHTMLForCallback = function(format) {
     var idArgument = "id=" + this.getNodeId();
-    var contentsArgument = "contents=" + this.getHTML();
+    var contentsArgument = "contents=" + this.getHTML(format);
     var joinedArguments = idArgument + defaultCallbackSeparator + contentsArgument;
     ZSSEditor.callback('callback-response-string', joinedArguments);
 };
@@ -2363,9 +2366,12 @@ ZSSField.prototype.setPlainText = function(text) {
     this.wrappedObject.text(text);
 };
 
-ZSSField.prototype.setHTML = function(html) {
+ZSSField.prototype.setHTML = function(html, format) {
     ZSSEditor.currentEditingImage = null;
-    var mutatedHTML = wp.loadText(html);
+    var mutatedHTML = html;
+    if ( format ) {
+        mutatedHTML = wp.loadText(html);
+    }
     mutatedHTML = ZSSEditor.applyVisualFormatting(mutatedHTML);
     this.wrappedObject.html(mutatedHTML);
 };
