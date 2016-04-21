@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
@@ -40,6 +42,7 @@ import org.wordpress.android.util.ProfilingUtils;
 import org.wordpress.android.util.ShortcodeUtils;
 import org.wordpress.android.util.StringUtils;
 import org.wordpress.android.util.ToastUtils;
+import org.wordpress.android.util.ToastUtils.Duration;
 import org.wordpress.android.util.UrlUtils;
 import org.wordpress.android.util.helpers.MediaFile;
 import org.wordpress.android.util.helpers.MediaGallery;
@@ -68,6 +71,9 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
 
     private static final String TAG_FORMAT_BAR_BUTTON_MEDIA = "media";
     private static final String TAG_FORMAT_BAR_BUTTON_LINK = "link";
+
+    private static final String PREFS_NAME = "editor-shared-preferences";
+    private static final String HINT_SHOWN = "HINT_SHOWN";
 
     private static final float TOOLBAR_ALPHA_ENABLED = 1;
     private static final float TOOLBAR_ALPHA_DISABLED = 0.5f;
@@ -124,6 +130,20 @@ public class EditorFragment extends EditorFragmentAbstract implements View.OnCli
 
         ProfilingUtils.start("Visual Editor Startup");
         ProfilingUtils.split("EditorFragment.onCreate");
+        if (isAdded()) {
+            AccessibilityManager accessibilityManager = (AccessibilityManager) getActivity().getSystemService(Context
+                    .ACCESSIBILITY_SERVICE);
+            if (accessibilityManager.isTouchExplorationEnabled()) {
+                SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                boolean hintShown = settings.getBoolean(HINT_SHOWN, false);
+                if (!hintShown) {
+                    ToastUtils.showToast(getActivity(), R.string.editor_accessibility_hint, Duration.LONG);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean(HINT_SHOWN, true);
+                    editor.apply();
+                }
+            }
+        }
     }
 
     @Override
