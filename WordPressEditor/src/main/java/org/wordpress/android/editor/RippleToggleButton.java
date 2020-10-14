@@ -3,12 +3,13 @@ package org.wordpress.android.editor;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ToggleButton;
 
-public class RippleToggleButton extends ToggleButton {
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatToggleButton;
+
+public class RippleToggleButton extends AppCompatToggleButton {
     private static final int FRAME_RATE = 10;
     private static final int DURATION = 250;
     private static final int FILL_INITIAL_OPACITY = 200;

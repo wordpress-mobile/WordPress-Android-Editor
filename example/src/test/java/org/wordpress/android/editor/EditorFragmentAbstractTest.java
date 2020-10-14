@@ -1,7 +1,9 @@
 package org.wordpress.android.editor;
 
 import android.app.Activity;
-import android.text.Spanned;
+import android.text.Editable;
+
+import androidx.lifecycle.LiveData;
 
 import com.android.volley.toolbox.ImageLoader;
 
@@ -57,7 +59,7 @@ public class EditorFragmentAbstractTest {
         }
 
         @Override
-        public CharSequence getContent() {
+        public CharSequence getContent(CharSequence originalContent) {
             return null;
         }
 
@@ -95,18 +97,23 @@ public class EditorFragmentAbstractTest {
         }
 
         @Override
-        public void setTitlePlaceholder(CharSequence text) {
+        public void removeMedia(String mediaId) {
 
         }
 
         @Override
-        public void setContentPlaceholder(CharSequence text) {
-
-        }
-
-        @Override
-        public Spanned getSpannedContent() {
+        public LiveData<Editable> getTitleOrContentChanged() {
             return null;
+        }
+
+        @Override
+        public boolean showSavingProgressDialogIfNeeded() {
+            return false;
+        }
+
+        @Override
+        public boolean hideSavingProgressDialog() {
+            return false;
         }
     }
 }

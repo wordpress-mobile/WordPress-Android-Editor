@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:inputType="textCapSentences"/>
 
         <EditText
             android:id="@+id/caption"
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:text="@string/width"
             android:textStyle="bold"
-            android:textColor="@color/image_options_label"/>
+            android:textColor="@color/image_options_label"
+            android:labelFor="@+id/imageWidthText"/>
 
         <SeekBar
             android:layout_height="wrap_content"
@@ -58,12 +60,12 @@
             android:text=""
             android:imeOptions="actionDone"
             android:id="@+id/imageWidthText"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="start|center_vertical"
             android:singleLine="true"
             android:inputType="number"/>
 
         <CheckBox
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:text="@string/featured"
             android:id="@+id/featuredImage"
             android:layout_width="wrap_content"
@@ -71,7 +73,7 @@
             android:visibility="gone"/>
 
         <CheckBox
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:text="@string/featured_in_post"
             android:id="@+id/featuredInPost"
             android:layout_width="wrap_content"
